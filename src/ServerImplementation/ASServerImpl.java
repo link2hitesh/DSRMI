@@ -26,44 +26,28 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
    // @Override
     public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
 
-        boolean flag = false; //to check whether the username is already used
+        boolean userPresent = userPresent(Username);
+        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username);
+        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username);
 
-
-            if(uname.contains(Username))
-            {    flag=true;
-                return "Username already used";
-
-            }
-
-        if (!flag) {                                        //creating a player and adding it to the playerDB
-            String status = "Offline";
-            player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, status);
-            uname.add(Username); //add to the list of existing usernames
-           // SenderReceiver.sendMessage(2345,2,Username);
-            //SenderReceiver.sendMessage(4999,2,Username);
+        if (!userPresent && (responseFromNA.equals("f") || responseFromEU.equals("f"))) {
+            player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
+            uname.add(Username);
             char[] tempArray = Username.toCharArray();
-            char firstLetter= Character.toUpperCase(tempArray[0]);// to create a a clean database
+            char firstLetter = Character.toUpperCase(tempArray[0]);
 
-            if(playerDB.containsKey(firstLetter))
-            {
+            if (playerDB.containsKey(firstLetter)) {
                 playerDB.get(firstLetter).add(newPlayer);
-                return("New account created");
-            }
-            else
-            {
-                List<player> newList= new ArrayList<>();
+            } else {
+                List<player> newList = new ArrayList<>();
                 newList.add(newPlayer);
-                playerDB.put(firstLetter,newList);
-                return("New account created");
+                playerDB.put(firstLetter, newList);
             }
+            return("New account created");
 
+        } else {
+            return("Username already exists. \nAccount not created");
         }
-        else {
-            return("Username already exists. \n Account not created");
-
-        }
-
-
     }
 
    // @Override
@@ -129,6 +113,14 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
         String NA=SenderReceiver.sendMessage(4999,1, "invalid");
         String AS=getLocalPlayerStatus();
         return EU+AS+NA;
+    }
+
+    public boolean userPresent(String userName) {
+        boolean flag = false;
+        for(String name : uname) {
+            flag = name.equals(userName);
+        }
+        return flag;
     }
 
     public String getLocalPlayerStatus() throws RemoteException {

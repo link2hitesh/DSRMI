@@ -23,22 +23,24 @@ public class ASServer {
         try {
             aSocket = new DatagramSocket(3999);
             byte[] buffer = new byte[1000];
-           // System.out.println("Server AS Started............");
-            while (true) {
+            // System.out.println("Server AS Started............");
+            while(true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
-                String method=new String(request.getData());
+                String method = new String(request.getData());
 
-                System.out.println(method);
-                String responseString = "";
-//                if(method.equals("Method 1")){
+                if(method.equals("Method 1")) {
+                    String responseString = "";
                     responseString = implementation.getLocalPlayerStatus();
-//                else
-//                     implementation.updateUsername(method);
-
-                DatagramPacket reply = new DatagramPacket(responseString.getBytes(), responseString.length(), request.getAddress(),
-                        request.getPort());
-                aSocket.send(reply);
+                    DatagramPacket reply = new DatagramPacket(responseString.getBytes(), responseString.length(), request.getAddress(), request.getPort());
+                    aSocket.send(reply);
+                } else {
+                    boolean userPresent = false;
+                    userPresent = implementation.userPresent(method);
+                    String temp = userPresent ? "t" : "f";
+                    DatagramPacket reply = new DatagramPacket(temp.getBytes(), temp.length(), request.getAddress(), request.getPort());
+                    aSocket.send(reply);
+                }
             }
         }catch (SocketException e) {
             System.out.println("Socket: " + e.getMessage());
@@ -62,7 +64,7 @@ public class ASServer {
             thread.start();
 
 
-            Registry registry= LocateRegistry.createRegistry(2345);
+            Registry registry= LocateRegistry.createRegistry(3999);
 
             registry.bind("AS",ASStub);
             System.out.println("Asia server started");

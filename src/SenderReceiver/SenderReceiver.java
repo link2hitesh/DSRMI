@@ -10,27 +10,21 @@ public class SenderReceiver {
         String responseString = null;
         try {
             aSocket = new DatagramSocket();
-            String string = "Method 1";
-            String string2=username;
+            String methodType = "Method 1";
 
-            byte[] message = string.getBytes();
-            byte[] message2 = string2.getBytes();
+            byte[] message = methodType.getBytes();
+            byte[] message2 = username.getBytes();
             InetAddress aHost = InetAddress.getByName("localhost");
-            String sentMessage="";
-            if(method==1) {
-                DatagramPacket request = new DatagramPacket(message, string.length(), aHost, server);
-                aSocket.send(request);
-                sentMessage=new String(request.getData());
-            }
-            else if(method==2){
-                DatagramPacket request = new DatagramPacket(message2, string2.length(), aHost, server);
-                aSocket.send(request);
-                sentMessage=new String(request.getData());
-               // System.out.println(sentMessage);
 
+            switch (method){
+                case 1:
+                    DatagramPacket request = new DatagramPacket(message, methodType.length(), aHost, server);
+                    aSocket.send(request);
+                case 2:
+                    DatagramPacket request2 = new DatagramPacket(message2, username.length(), aHost, server);
+                    aSocket.send(request2);
             }
-//            System.out.println("Request message sent from the client to server with port number " + server + " is: "
-//                    +sentMessage);
+
             byte[] buffer = new byte[1000];
             DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
 
@@ -51,6 +45,4 @@ public class SenderReceiver {
                 aSocket.close();
         }return responseString;
     }
-
-
 }

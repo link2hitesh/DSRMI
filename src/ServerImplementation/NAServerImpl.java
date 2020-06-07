@@ -25,43 +25,28 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
     @Override
     public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
 
-        boolean flag = false; //to check whether the username is already used
+        boolean userPresent = userPresent(Username);
+        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username);
+        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username);
 
-        for(String test: uname) {
-            System.out.println("Printing List"+test);
-        }
-
-            if(uname.contains(Username))
-            {    flag=true;
-                return "Username already used";
-
-            }
-
-        if (!flag) {                                        //creating a player and adding it to the playerDB
-            String status = "Offline";
-            player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, status);
-            uname.add(Username); //add to the list of existing usernames
-            //SenderReceiver.sendMessage(2345,2,Username);
-            //SenderReceiver.sendMessage(3999,2,Username);
+        if (!userPresent && (responseFromAS.equals("f") || responseFromEU.equals("f"))) {
+            player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
+            uname.add(Username);
             char[] tempArray = Username.toCharArray();
-            char firstLetter = Character.toUpperCase(tempArray[0]);// to create a a clean database
+            char firstLetter = Character.toUpperCase(tempArray[0]);
 
             if (playerDB.containsKey(firstLetter)) {
                 playerDB.get(firstLetter).add(newPlayer);
-                return("New account created");
             } else {
                 List<player> newList = new ArrayList<>();
                 newList.add(newPlayer);
                 playerDB.put(firstLetter, newList);
-                return("New account created");
             }
+            return("New account created");
 
         } else {
-            return("Username already exists. \n Account not created");
-
+            return("Username already exists. \nAccount not created");
         }
-
-
     }
 
      @Override
@@ -131,32 +116,18 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
         return reply;
     }
 
+    public boolean userPresent(String userName) {
+        boolean flag = false;
+        for(String name : uname) {
+            flag = name.equals(userName);
+        }
+        return flag;
+    }
+
     public void updateUsername(String username)
     {
       uname.add(username);
     }
-
-//    public String allLocalUsernames()
-//    {
-//        String listOfAllNames= "";
-//        if(uname.size()>0) {
-//            for (String user : uname) {
-//                listOfAllNames += user + " ";
-//            }
-//        }
-//    return listOfAllNames;
-//    }
-//
-//    public String allUsernames()
-//    {
-//        String EU = SenderReceiver.sendMessage(2345,2);
-//        String AS = SenderReceiver.sendMessage(3999,2);
-//        String NA = allLocalUsernames();
-//        String combine = EU + AS + NA;
-//
-//        System.out.println(combine);
-//        return combine;
-//    }
 
 
     public String getLocalPlayerStatus() throws RemoteException {
