@@ -10,7 +10,7 @@ public class SenderReceiver {
         String responseString = null;
         try {
             aSocket = new DatagramSocket();
-            String methodType = "Method 1";
+            String methodType = "userstatus";
 
             byte[] message = methodType.getBytes();
             byte[] message2 = username.getBytes();

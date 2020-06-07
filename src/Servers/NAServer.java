@@ -1,8 +1,5 @@
 package Servers;
-
-import ServerImplementation.EUServerImpl;
 import ServerImplementation.NAServerImpl;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -23,17 +20,20 @@ public class NAServer {
             while(true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
-                String method = new String(request.getData());
+                String response = new String(request.getData()).trim().toLowerCase();
 
-                if(method.equals("Method 1")) {
+                if(response.equalsIgnoreCase("userstatus")) {
                     String responseString = "";
                     responseString = implementation.getLocalPlayerStatus();
                     DatagramPacket reply = new DatagramPacket(responseString.getBytes(), responseString.length(), request.getAddress(), request.getPort());
                     aSocket.send(reply);
                 } else {
                     boolean userPresent = false;
-                    userPresent = implementation.userPresent(method);
-                    String temp = userPresent ? "t" : "f";
+                    userPresent = implementation.userPresent(response.trim());
+                    String temp = null;
+                    if(userPresent){
+                        temp = "t";
+                    }else temp = "f";
                     DatagramPacket reply = new DatagramPacket(temp.getBytes(), temp.length(), request.getAddress(), request.getPort());
                     aSocket.send(reply);
                 }

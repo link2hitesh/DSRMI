@@ -3,10 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="567fee8b-3518-419f-9545-ffe6bd18b95a" name="Default Changelist" comment="JAVA RMI AND UDP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DSRMI/ServerImplementation/ASServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DSRMI/ServerImplementation/ASServerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DSRMI/ServerImplementation/NAServerImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DSRMI/ServerImplementation/NAServerImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DSRMI/Servers/ASServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DSRMI/Servers/ASServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DSRMI/Servers/ASServerLogs.log" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DSRMI/Servers/ASServerLogs.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DSRMI/Servers/EUServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DSRMI/Servers/EUServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/DSRMI/Servers/NAServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/DSRMI/Servers/NAServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SenderReceiver/SenderReceiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SenderReceiver/SenderReceiver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerImplementation/ASServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerImplementation/ASServerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerImplementation/EUServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerImplementation/EUServerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ServerImplementation/NAServerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerImplementation/NAServerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Servers/ASServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servers/ASServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Servers/ASServerLogs.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servers/ASServerLogs.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Servers/EUServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servers/EUServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Servers/NAServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Servers/NAServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +172,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1590601258570</updated>
-      <workItem from="1591510141947" duration="4192000" />
+      <workItem from="1591510141947" duration="5868000" />
+      <workItem from="1591516536806" duration="730000" />
     </task>
     <task id="LOCAL-00001" summary="JAVA RMI AND UDP">
       <created>1591371905243</created>
@@ -182,22 +193,38 @@
     <option name="LAST_COMMIT_MESSAGE" value="JAVA RMI AND UDP" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2518" height="255" key="GridCell.Tab.0.bottom" timestamp="1591514288793">
+    <state width="2518" height="295" key="GridCell.Tab.0.bottom" timestamp="1591517199401">
       <screen x="-502" y="-1057" width="2560" height="1057" />
     </state>
-    <state width="2518" height="255" key="GridCell.Tab.0.bottom/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591514288793" />
-    <state width="2518" height="255" key="GridCell.Tab.0.center" timestamp="1591514288792">
+    <state width="2518" height="295" key="GridCell.Tab.0.bottom/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199401" />
+    <state width="2518" height="295" key="GridCell.Tab.0.center" timestamp="1591517199400">
       <screen x="-502" y="-1057" width="2560" height="1057" />
     </state>
-    <state width="2518" height="255" key="GridCell.Tab.0.center/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591514288792" />
-    <state width="2518" height="255" key="GridCell.Tab.0.left" timestamp="1591514288791">
+    <state width="2518" height="295" key="GridCell.Tab.0.center/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199400" />
+    <state width="2518" height="295" key="GridCell.Tab.0.left" timestamp="1591517199399">
       <screen x="-502" y="-1057" width="2560" height="1057" />
     </state>
-    <state width="2518" height="255" key="GridCell.Tab.0.left/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591514288791" />
-    <state width="2518" height="255" key="GridCell.Tab.0.right" timestamp="1591514288792">
+    <state width="2518" height="295" key="GridCell.Tab.0.left/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199399" />
+    <state width="2518" height="295" key="GridCell.Tab.0.right" timestamp="1591517199400">
       <screen x="-502" y="-1057" width="2560" height="1057" />
     </state>
-    <state width="2518" height="255" key="GridCell.Tab.0.right/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591514288792" />
+    <state width="2518" height="295" key="GridCell.Tab.0.right/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199400" />
+    <state width="2518" height="295" key="GridCell.Tab.1.bottom" timestamp="1591517199402">
+      <screen x="-502" y="-1057" width="2560" height="1057" />
+    </state>
+    <state width="2518" height="295" key="GridCell.Tab.1.bottom/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199402" />
+    <state width="2518" height="295" key="GridCell.Tab.1.center" timestamp="1591517199401">
+      <screen x="-502" y="-1057" width="2560" height="1057" />
+    </state>
+    <state width="2518" height="295" key="GridCell.Tab.1.center/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199401" />
+    <state width="2518" height="295" key="GridCell.Tab.1.left" timestamp="1591517199401">
+      <screen x="-502" y="-1057" width="2560" height="1057" />
+    </state>
+    <state width="2518" height="295" key="GridCell.Tab.1.left/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199401" />
+    <state width="2518" height="295" key="GridCell.Tab.1.right" timestamp="1591517199402">
+      <screen x="-502" y="-1057" width="2560" height="1057" />
+    </state>
+    <state width="2518" height="295" key="GridCell.Tab.1.right/0.23.1440.822/-502.-1057.2560.1057@-502.-1057.2560.1057" timestamp="1591517199402" />
     <state x="287" y="-890" key="SettingsEditor" timestamp="1591510344656">
       <screen x="-502" y="-1057" width="2560" height="1057" />
     </state>
@@ -207,12 +234,20 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/ServerImplementation/EUServerImpl.java</url>
-          <line>18</line>
-          <properties class="ServerImplementation.EUServerImpl" method="createPlayerAccount">
+          <url>file://$PROJECT_DIR$/src/Servers/EUServer.java</url>
+          <line>16</line>
+          <properties class="Servers.EUServer" method="receive">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="2" />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/Servers/ASServer.java</url>
+          <line>20</line>
+          <properties class="Servers.ASServer" method="receive">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

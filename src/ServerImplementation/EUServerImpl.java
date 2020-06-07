@@ -26,7 +26,7 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
         if (!userPresent && responseFromAS.equalsIgnoreCase("f") && responseFromNA.equalsIgnoreCase("f")){
             player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
-            uname.add(Username);
+            uname.add(Username.trim());
             char[] tempArray = Username.toCharArray();
             char firstLetter = Character.toUpperCase(tempArray[0]);
 
@@ -145,34 +145,5 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
         String message = "EU:" + Integer.toString(onlineCount)+"Online, "+Integer.toString(offlineCount)+"Offline";
         return message;
     }
-
-    public void updateUsername(String username)
-    {
-       uname.add(username);
-    }
-
-//    public String allLocalUsernames()
-//    {
-//        String listOfAllNames= "";
-//        if(uname.size()>0) {
-//            for (String user : uname) {
-//                listOfAllNames += user+ " ";
-//            }
-//        }
-//        return listOfAllNames;
-//    }
-//
-//    public String allUsernames()
-//    {
-//        String NA=SenderReceiver.sendMessage(4999,2);
-//        String AS=SenderReceiver.sendMessage(3999,2);
-//        String EU=allLocalUsernames();
-//        String combine=EU + AS + NA;
-////        System.out.println("This is combined : "+ combine.split(" "));
-//        for(String temp:  uname){
-//            System.out.println(temp);
-//        }
-//        return combine;
-//    }
 }
 

@@ -3,8 +3,6 @@ package ServerImplementation;
 import Interface.PlayerInfo;
 import SenderReceiver.SenderReceiver;
 import SuppClasses.player;
-import SenderReceiver.*;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
         if (!userPresent && responseFromAS.equalsIgnoreCase("f") && responseFromEU.equalsIgnoreCase("f")) {
             player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
-            uname.add(Username);
+            uname.add(Username.trim());
             char[] tempArray = Username.toCharArray();
             char firstLetter = Character.toUpperCase(tempArray[0]);
 
@@ -126,12 +124,6 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
         return flag;
     }
 
-    public void updateUsername(String username)
-    {
-      uname.add(username);
-    }
-
-
     public String getLocalPlayerStatus() throws RemoteException {
 
         int onlineCount = 0;
@@ -157,5 +149,4 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
         String message = "NA:" + Integer.toString(onlineCount)+"Online, "+Integer.toString(offlineCount)+"Offline";
         return message;
     }
-
 }

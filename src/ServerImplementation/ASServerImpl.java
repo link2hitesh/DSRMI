@@ -14,14 +14,9 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
     Hashtable<Character, List<player>> playerDB = new Hashtable<Character, List<player>>();
     List<String> uname = new ArrayList<String>();
 
-
-
-
     public ASServerImpl() throws Exception{
         super();
     }
-
-
 
    // @Override
     public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
@@ -35,7 +30,7 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
         if (!userPresent && responseFromNA.equalsIgnoreCase("f") && responseFromEU.equalsIgnoreCase("f")) {
 
             player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
-            uname.add(Username);
+            uname.add(Username.trim());
             char[] tempArray = Username.toCharArray();
             char firstLetter = Character.toUpperCase(tempArray[0]);
 
@@ -98,15 +93,11 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
                         return("Player " + Username + "not signed in");
                     }
                 }
-                else {
-                    continue;
-                }
             }
         }
         else {
             return ("User does not exist");
         }
-
         return("User does not exist");
     }
 
@@ -146,38 +137,9 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
                     }
                 }
             }
-
         }
         String message = "AS:" + Integer.toString(onlineCount)+"Online, "+Integer.toString(offlineCount)+"Offline";
         return message;
     }
-
-    public void updateUsername(String username)
-    {
-        uname.add(username);
-    }
-//    public String allLocalUsernames()
-//    {
-//        String listOfAllNames= "";
-//        if(uname.size()>0) {
-//            for (String user : uname) {
-//                listOfAllNames +=  user + " ";
-//            }
-//        }
-//        return listOfAllNames;
-//    }
-//
-//    public String allUsernames()
-//    {
-//        String EU = SenderReceiver.sendMessage(2345,2);
-//        String NA = SenderReceiver.sendMessage(4999,2);
-//        String AS = allLocalUsernames();
-//        String combine = EU + AS + NA;
-////        System.out.println("This is combined : "+ combine);
-//        for(String temp:  uname){
-//            System.out.println(temp);
-//        }
-//        return combine;
-//    }
 }
 
