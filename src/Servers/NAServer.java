@@ -59,19 +59,14 @@ public class NAServer {
             };
             Thread thread = new Thread(task);
             thread.start();
-
-
             Registry registry= LocateRegistry.createRegistry(4999);
-
             registry.bind("NA",NAStub);
             System.out.println("North America server started");
-
         }
         catch (Exception e)
         {
             System.out.println("client exception: " + e.toString());
             e.printStackTrace();
         }
-
     }
 }

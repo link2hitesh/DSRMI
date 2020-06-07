@@ -62,21 +62,16 @@ public class ASServer {
             };
             Thread thread = new Thread(task);
             thread.start();
-
-
             Registry registry= LocateRegistry.createRegistry(3999);
-
             registry.bind("AS",ASStub);
             System.out.println("Asia server started");
             LOGGER.info( " Asia Server started");
-
         }
         catch(Exception e)
         {
             System.out.println("client exception: " + e.toString());
             e.printStackTrace();
         }
-
     }
 
     private static void setupLogging() throws IOException {
@@ -88,5 +83,4 @@ public class ASServer {
             files.createNewFile();
         loggerC.setup(files.getAbsolutePath());
     }
-
 }

@@ -53,7 +53,6 @@ public class EUServer {
     public static void main(String[] args) throws RemoteException {
 
         String host = (args.length < 1) ? null : args[0];
-
         try{
             EUServerImpl EUStub = new EUServerImpl();
             Runnable task = () -> {
@@ -61,21 +60,14 @@ public class EUServer {
             };
             Thread thread = new Thread(task);
             thread.start();
-
-
             Registry registry= LocateRegistry.createRegistry(2345);
-
             registry.bind("EU",EUStub);
             System.out.println("Europe server started");
-
-
         }
         catch(Exception e)
         {
             System.out.println("client exception: " + e.toString());
             e.printStackTrace();
         }
-
     }
-
 }

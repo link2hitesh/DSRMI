@@ -26,10 +26,12 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
     public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
 
         boolean userPresent = userPresent(Username);
-        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username);
-        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username);
+        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username).trim();
+        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username).trim();
 
-        if (!userPresent && (responseFromAS.equals("f") || responseFromEU.equals("f"))) {
+        System.out.println(responseFromAS + " and " + responseFromEU);
+
+        if (!userPresent && responseFromAS.equalsIgnoreCase("f") && responseFromEU.equalsIgnoreCase("f")) {
             player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
             uname.add(Username);
             char[] tempArray = Username.toCharArray();

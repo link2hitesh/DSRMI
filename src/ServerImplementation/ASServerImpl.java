@@ -27,10 +27,13 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
     public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
 
         boolean userPresent = userPresent(Username);
-        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username);
-        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username);
+        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username).trim();
+        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username).trim();
 
-        if (!userPresent && (responseFromNA.equals("f") || responseFromEU.equals("f"))) {
+        System.out.println(responseFromNA + " and " + responseFromEU);
+
+        if (!userPresent && responseFromNA.equalsIgnoreCase("f") && responseFromEU.equalsIgnoreCase("f")) {
+
             player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
             uname.add(Username);
             char[] tempArray = Username.toCharArray();
