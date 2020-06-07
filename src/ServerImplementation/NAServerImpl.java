@@ -14,11 +14,9 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
     Hashtable<Character, List<player>> playerDB = new Hashtable<Character, List<player>>();
     List<String> uname = new ArrayList<String>();
 
-
     public NAServerImpl() throws Exception {
         super();
     }
-
 
     @Override
     public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {

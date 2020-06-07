@@ -12,7 +12,7 @@ public class SenderReceiver {
             aSocket = new DatagramSocket();
             String methodType = "userstatus";
 
-            byte[] message = methodType.getBytes();
+            byte[] message = methodType.trim().toLowerCase().getBytes();
             byte[] message2 = username.getBytes();
             InetAddress aHost = InetAddress.getByName("localhost");
 
