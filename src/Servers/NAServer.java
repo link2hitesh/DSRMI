@@ -19,7 +19,7 @@ public class NAServer {
         try {
             aSocket = new DatagramSocket(4999);
             byte[] buffer = new byte[1000];
-           System.out.println("Server EU Started............");
+           System.out.println("Server NA Started............");
             while (true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
@@ -50,11 +50,19 @@ public class NAServer {
         String host = (args.length < 1) ? null : args[0];
 
         try{
-            NAServerImpl obj= new NAServerImpl();
-            Registry registry = LocateRegistry.createRegistry(4999);
-            registry.bind("NA", obj);
-            System.out.println("North America Server started");
-            receive(obj);
+            NAServerImpl NAStub = new NAServerImpl();
+            Runnable task = () -> {
+                receive(NAStub);
+            };
+            Thread thread = new Thread(task);
+            thread.start();
+
+
+            Registry registry= LocateRegistry.createRegistry(2345);
+
+            registry.bind("NA",NAStub);
+            System.out.println("North America server started");
+
         }
         catch (Exception e)
         {

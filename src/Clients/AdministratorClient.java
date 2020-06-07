@@ -6,8 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.*;
 
-import static SuppClasses.Validations.adminUsername;
-import static SuppClasses.Validations.checkIP;
+import static SuppClasses.Validations.*;
 
 public class AdministratorClient {
 
@@ -21,7 +20,7 @@ public class AdministratorClient {
                 "Press 2 to exit");
 
 
-        int choice=Integer.parseInt(sc.nextLine());
+        int choice=getValidIntegerInput();
 
         switch(choice)
         {

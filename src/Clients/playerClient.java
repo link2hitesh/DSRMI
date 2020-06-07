@@ -25,9 +25,8 @@ public class playerClient {
                     "\nPress 1 to Create a new account. " +
                     "\nPress 2 to Sign in\n" +
                     "Press 3 to Sign Out\n" +
-                    "Press 4 to Get Player status\n" +
-                    "Press 5 to exit");
-            choice = sc.nextInt();
+                    "Press 4 to exit");
+            choice = getValidIntegerInput();
 
             switch (choice) {
 
@@ -109,7 +108,11 @@ public class playerClient {
 
                     }
                     break;
-                    default: break;
+                case 4: break;
+
+                    default:
+                        System.out.println("Please enter correct option");
+                        break;
 
             }
 

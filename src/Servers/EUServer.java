@@ -51,13 +51,19 @@ public class EUServer {
         String host = (args.length < 1) ? null : args[0];
 
         try{
+            EUServerImpl EUStub = new EUServerImpl();
+            Runnable task = () -> {
+                receive(EUStub);
+            };
+            Thread thread = new Thread(task);
+            thread.start();
 
 
             Registry registry= LocateRegistry.createRegistry(2345);
-            EUServerImpl obj= new EUServerImpl();
-            registry.bind("EU",obj);
+
+            registry.bind("EU",EUStub);
             System.out.println("Europe server started");
-            receive(obj);
+
 
         }
         catch(Exception e)
