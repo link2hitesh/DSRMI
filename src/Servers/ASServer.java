@@ -15,7 +15,7 @@ import java.rmi.registry.Registry;
 import java.util.logging.Logger;
 
 public class ASServer {
-    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);// to create server logs
     private ASServer(){};
 
     public static void receive(ASServerImpl implementation) {
@@ -27,16 +27,16 @@ public class ASServer {
             while(true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
-                String response = new String(request.getData()).trim().toLowerCase();
+                String response = new String(request.getData()).trim().toLowerCase();// Choice of the method to be invoked
 
                 if(response.equalsIgnoreCase("userstatus")) {
                     String responseString = "";
-                    responseString = implementation.getLocalPlayerStatus();
+                    responseString = implementation.getLocalPlayerStatus();//to get player status
                     DatagramPacket reply = new DatagramPacket(responseString.getBytes(), responseString.length(), request.getAddress(), request.getPort());
                     aSocket.send(reply);
                 } else {
                     boolean userPresent = false;
-                    userPresent = implementation.userPresent(response.trim());
+                    userPresent = implementation.userPresent(response.trim());//to check repetitive username
                     String temp = null;
                     if(userPresent){
                         temp = "t";
@@ -60,13 +60,13 @@ public class ASServer {
         setupLogging();
         try{
             ASServerImpl ASStub = new ASServerImpl();
-            Runnable task = () -> {
+            Runnable task = () -> { // to handle concurrency
                 receive(ASStub);
             };
             Thread thread = new Thread(task);
             thread.start();
-            Registry registry= LocateRegistry.createRegistry(3999);
-            registry.bind("AS",ASStub);
+            Registry registry= LocateRegistry.createRegistry(3999);// registry created at port 3999
+            registry.bind("AS",ASStub);// registry at port 3999 bound to ASServerImpl object
             System.out.println("Asia server started");
 
 
@@ -79,7 +79,7 @@ public class ASServer {
         }
     }
 
-    private static void setupLogging() throws IOException {
+    private static void setupLogging() throws IOException {// logger setup
         File files = new File("./src/Servers/");
         if (!files.exists())
             files.mkdirs();

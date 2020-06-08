@@ -12,7 +12,7 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
     Hashtable<Character, List<player>> playerDB = new Hashtable<Character, List<player>>();
     List<String> uname = new ArrayList<>();
 
-    public EUServerImpl() throws Exception{/*Comtructor to create default players*/
+    public EUServerImpl() throws Exception{/*Constructor to create default players*/
         super();
 
         player newplayer = new player("abc", "cde", "player2", "password", 21, "93.122.132.23", "Offline");
@@ -38,8 +38,8 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
         boolean userPresent = userPresent(Username);
         uname.add(Username.trim());
-        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username).trim();
-        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username).trim();
+        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username).trim();//udp connection to verify username
+        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username).trim();//udp connection to verify username
 
         //System.out.println(responseFromAS + " and " + responseFromNA);
 
@@ -67,7 +67,7 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
     public synchronized String PlayerSignIn(String Username, String Password, String IPAddress) throws RemoteException {
 
         char firstLetter = Username.toCharArray()[0];
-        firstLetter = Character.toUpperCase(firstLetter);
+        firstLetter = Character.toUpperCase(firstLetter);//all lists are stored with Capital letter keys
         if (playerDB.containsKey(firstLetter)) {
             List<player> tempList = playerDB.get(firstLetter);
             for (player currentPlayer : tempList) {
@@ -80,7 +80,7 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
                             return ("'" + Username + "'" + " signed in");
                         }
                     } else
-                        return ("incorrect password");
+                        return ("Incorrect password");
 
                 } else {
                     continue;
@@ -88,9 +88,9 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
             }
 
-            return ("User does not exist");
+            return ("User does not exist");//if incorrect username
         }
-        return ("User does not exist");
+        return ("User does not exist");//if incorrect IP
     }
 
 
@@ -99,7 +99,7 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
     public synchronized String playerSignOut(String Username, String IPAdress) throws RemoteException {
 
         char firstLetter= Username.toCharArray()[0];
-        firstLetter=Character.toUpperCase(firstLetter);
+        firstLetter=Character.toUpperCase(firstLetter);//all lists are stored with Capital letter keys
 
         if(playerDB.containsKey(firstLetter)){
                 List<player> checkingList = playerDB.get(firstLetter);
@@ -119,14 +119,14 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
                 }
             }
         else {
-            return ("User does not exist");
+            return ("User does not exist");//if incorrect username
         }
 
-        return("User does not exist");
+        return("User does not exist");//if incorrect IP
         }
 
     @Override
-    public synchronized String getPlayerStatus() throws RemoteException {
+    public synchronized String getPlayerStatus() throws RemoteException {//UDP calls to recieve Player status from other servers
         String NA= SenderReceiver.sendMessage(4999,1,"invalid");
         String AS=SenderReceiver.sendMessage(3999,1,"invalid");
         String EU=getLocalPlayerStatus();
@@ -142,7 +142,7 @@ public class EUServerImpl extends UnicastRemoteObject implements PlayerInfo {
         return flag;
     }
 
-    public synchronized String getLocalPlayerStatus() throws RemoteException {
+    public synchronized String getLocalPlayerStatus() throws RemoteException { //method call to get local server status
 
         int onlineCount = 0;
         int offlineCount=0;

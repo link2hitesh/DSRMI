@@ -90,16 +90,16 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
              }
 
-             return ("User does not exist");//incorrect username
+             return ("User does not exist");//if incorrect username
          }
-         return ("User does not exist");//incorrect IP
+         return ("User does not exist");//if incorrect IP
      }
 
 
     @Override
     public synchronized String playerSignOut(String Username, String IPAdress) throws RemoteException {
         char firstLetter= Username.toCharArray()[0];
-        firstLetter= Character.toUpperCase(firstLetter);
+        firstLetter= Character.toUpperCase(firstLetter);//all lists are stored with Capital letter keys
         if(playerDB.containsKey(firstLetter)){
             List<player> checkingList = playerDB.get(firstLetter);
 
@@ -118,17 +118,17 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
             }
         }
         else {
-            return ("User does not exist");
+            return ("User does not exist");//if incorrect username
         }
 
-        return("User does not exist");
+        return("User does not exist");//if incorrect IP
     }
 
     @Override
-    public synchronized String getPlayerStatus() throws RemoteException {
+    public synchronized String getPlayerStatus() throws RemoteException {      //UDP calls to recieve Player status from other servers
         String EU=SenderReceiver.sendMessage(2345,1,"invalid");
         String AS=SenderReceiver.sendMessage(3999,1,"invalid");
-        String NA=getLocalPlayerStatus();
+        String NA=getLocalPlayerStatus();//method call to get local server status
         String reply= NA+EU+AS;
         return reply;
     }
@@ -141,7 +141,7 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
         return flag;
     }
 
-    public synchronized String getLocalPlayerStatus() throws RemoteException {
+    public synchronized String getLocalPlayerStatus() throws RemoteException { //method call to get local server status
 
         int onlineCount = 0;
         int offlineCount=0;

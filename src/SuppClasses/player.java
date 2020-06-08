@@ -1,6 +1,6 @@
 package SuppClasses;
 
-public class player {
+public class player { //player object that is added to the server database
 
     public String firstName, lastName, userName, pwd, IPAdress, status;
        public int age;

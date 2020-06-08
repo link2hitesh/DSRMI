@@ -39,8 +39,8 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
         boolean userPresent = userPresent(Username);
         uname.add(Username.trim());
-        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username).trim();
-        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username).trim();
+        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username).trim();//udp connection to verify username
+        String responseFromNA = SenderReceiver.sendMessage(4999,2,Username).trim();//udp connection to verify username
 
         //System.out.println(responseFromNA + " and " + responseFromEU);
 
@@ -66,8 +66,11 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
     }
 
    // @Override
-   public synchronized String PlayerSignIn(String Username, String Password, String IPAddress) throws RemoteException {  char firstLetter = Username.toCharArray()[0];
-       firstLetter = Character.toUpperCase(firstLetter);
+   public synchronized String PlayerSignIn(String Username, String Password, String IPAddress) throws RemoteException {
+
+       char firstLetter = Username.toCharArray()[0];
+
+       firstLetter = Character.toUpperCase(firstLetter);//all lists are stored with Capital letter keys
        if (playerDB.containsKey(firstLetter)) {
            List<player> tempList = playerDB.get(firstLetter);
            for (player currentPlayer : tempList) {
@@ -88,15 +91,15 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
            }
 
-           return ("User does not exist");
+           return ("User does not exist");//incorrect username
        }
-       return ("User does not exist");
+       return ("User does not exist");//incorrect IP
    }
 
    // @Override
     public synchronized String playerSignOut(String Username, String IPAdress) throws RemoteException {
         char firstLetter= Username.toCharArray()[0];
-        firstLetter=Character.toUpperCase(firstLetter);
+        firstLetter=Character.toUpperCase(firstLetter);//all lists are stored with Capital letter keys
         if(playerDB.containsKey(firstLetter)){
             List<player> checkingList = playerDB.get(firstLetter);
 
@@ -112,21 +115,21 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
                 else{ continue;}
             }
               {
-                return ("User does not exist");
+                return ("User does not exist");//incorrect username
               }
         }
-        return("User does not exist");
+        return("User does not exist");//incorrect IP
     }
 
     @Override
-    public synchronized String getPlayerStatus() throws RemoteException {
+    public synchronized String getPlayerStatus() throws RemoteException {//UDP calls to recieve Player status from other servers
         String EU= SenderReceiver.sendMessage(2345,1,"invalid");
         String NA=SenderReceiver.sendMessage(4999,1, "invalid");
-        String AS=getLocalPlayerStatus();
+        String AS=getLocalPlayerStatus();//method call to get local server status
         return EU+AS+NA;
     }
 
-    public synchronized boolean userPresent(String userName) {
+    public synchronized boolean userPresent(String userName) {//check username in local list
         boolean flag = false;
         for(String name : uname) {
             flag = name.equals(userName.trim());
@@ -134,7 +137,7 @@ public class ASServerImpl extends UnicastRemoteObject implements PlayerInfo {
         return flag;
     }
 
-    public synchronized String getLocalPlayerStatus() throws RemoteException {
+    public synchronized String getLocalPlayerStatus() throws RemoteException { //method call to get local server status
 
         int onlineCount = 0;
         int offlineCount=0;

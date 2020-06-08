@@ -1,4 +1,5 @@
-package Interface;
+package Interface;  /* Interface to be implemented by the servers
+                        +implementation for the udp connection*/
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

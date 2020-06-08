@@ -52,7 +52,7 @@ public class playerClient {
                     password = checkPassword();
                     System.out.print("IPaddress(132,93,182): ");
                     IPaddress = inputIP();
-                    String server = checkIP(IPaddress);
+                    String server = checkIP(IPaddress);//returns the correct server on which the operation is to be performed.
                     if (server.equals("NA")) {
                         Registry registry = LocateRegistry.getRegistry(4999);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
@@ -61,7 +61,7 @@ public class playerClient {
 
                         if(output.equals("New account created"))
                         {
-                            playerCounter++;
+                            playerCounter++;// to create new log file for each player
                             setupLogging(Integer.toString(playerCounter));
                             LOGGER.info(username+"'s account created");
                         }
@@ -71,7 +71,7 @@ public class playerClient {
                         String output=obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress);
                         System.out.println("\n"+"*******"+output+"*******"+"\n");
 
-                        if(output.equals("New account created"))
+                        if(output.equals("New account created"))// to create new log file for each player
                         {
                             playerCounter++;
                             setupLogging(Integer.toString(playerCounter));
@@ -84,7 +84,7 @@ public class playerClient {
                         String output=obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress);
                         System.out.println("\n"+"*******"+output+"*******"+"\n");
 
-                        if(output.equals("New account created"))
+                        if(output.equals("New account created"))// to create new log file for each player
                         {
                             playerCounter++;
                             setupLogging(Integer.toString(playerCounter));
@@ -105,7 +105,7 @@ public class playerClient {
                     if (server.equals("NA")) {
                         Registry registry = LocateRegistry.getRegistry(4999);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        String output=obj.PlayerSignIn(username, password, IPaddress);
+                        String output=obj.PlayerSignIn(username, password, IPaddress);// receives message from server and is played to client
                         System.out.println("\n"+"*******"+output+"*******"+"\n");
                         LOGGER.info(output);
                     } else if (server.equals("EU")) {
