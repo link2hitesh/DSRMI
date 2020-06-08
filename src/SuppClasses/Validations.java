@@ -108,7 +108,7 @@ public class Validations {
 
                 flag = true;
             } else {
-                System.out.println("Incorrect username. \n Enter again");
+                System.out.println("Incorrect username. \nEnter again");
                 username = sc.nextLine();
             }
         }
@@ -124,7 +124,7 @@ public class Validations {
 
                 flag = true;
             } else {
-                System.out.println("Incorrect Password.. \n Enter again");
+                System.out.println("Incorrect Password.. \nEnter again");
                 password = sc.nextLine();
             }
         }
