@@ -28,12 +28,13 @@ public class ASServer {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
                 String response = new String(request.getData()).trim().toLowerCase();// Choice of the method to be invoked
-
+                LOGGER.info("Request received");
                 if(response.equalsIgnoreCase("userstatus")) {
                     String responseString = "";
                     responseString = implementation.getLocalPlayerStatus();//to get player status
                     DatagramPacket reply = new DatagramPacket(responseString.getBytes(), responseString.length(), request.getAddress(), request.getPort());
                     aSocket.send(reply);
+                    LOGGER.info("Reply sent for players status");
                 } else {
                     boolean userPresent = false;
                     userPresent = implementation.userPresent(response.trim());//to check repetitive username
@@ -43,6 +44,7 @@ public class ASServer {
                     }else temp = "f";
                     DatagramPacket reply = new DatagramPacket(temp.getBytes(), temp.length(), request.getAddress(), request.getPort());
                     aSocket.send(reply);
+                    LOGGER.info("Reply sent for usernames check");
                 }
             }
         }catch (SocketException e) {

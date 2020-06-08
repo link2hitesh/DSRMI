@@ -28,13 +28,14 @@ public class EUServer {
             while(true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
+                LOGGER.info("Request received");
                 String response = new String(request.getData()).trim().toLowerCase();// Choice of the method to be invoked
 
                 if(response.equalsIgnoreCase("userstatus")) {
                     String responseString = "";
                     responseString = implementation.getLocalPlayerStatus();//to get player status
                     DatagramPacket reply = new DatagramPacket(responseString.getBytes(), responseString.length(), request.getAddress(), request.getPort());
-                    aSocket.send(reply);
+                    aSocket.send(reply);LOGGER.info("Reply sent for player status");
                 } else {
                     boolean userPresent = false;
                     userPresent = implementation.userPresent(response.trim());//to check repetitive username
@@ -43,7 +44,7 @@ public class EUServer {
                         temp = "t";
                     }else temp = "f";
                     DatagramPacket reply = new DatagramPacket(temp.getBytes(), temp.length(), request.getAddress(), request.getPort());
-                    aSocket.send(reply);
+                    aSocket.send(reply);LOGGER.info("Reply sent for username check");
                 }
             }
         }catch (SocketException e) {

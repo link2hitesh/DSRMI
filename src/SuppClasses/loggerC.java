@@ -11,7 +11,7 @@ public class loggerC {
     /** fileHandler for logging to file */
     static private FileHandler fileHandler;
 
-    public static void setup(final String logFile) throws IOException {
+    public static FileHandler setup(final String logFile) throws IOException {
         Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         FileHandler fileHandler;
         logger.setUseParentHandlers(false); // don't log the console output to file
@@ -19,5 +19,6 @@ public class loggerC {
         fileHandler = new FileHandler(logFile, true);
         fileHandler.setFormatter(new formatter());
         logger.addHandler(fileHandler);
+        return fileHandler;
     }
 }
