@@ -23,7 +23,7 @@ public class ASServer {
         try {
             aSocket = new DatagramSocket(3999);
             byte[] buffer = new byte[1000];
-             System.out.println("Server AS Started............");
+
             while(true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
@@ -68,6 +68,8 @@ public class ASServer {
             Registry registry= LocateRegistry.createRegistry(3999);
             registry.bind("AS",ASStub);
             System.out.println("Asia server started");
+
+
             LOGGER.info( " Asia Server started");
         }
         catch(Exception e)
@@ -81,7 +83,7 @@ public class ASServer {
         File files = new File("./src/Servers/");
         if (!files.exists())
             files.mkdirs();
-        files = new File("./src/Servers/ASServerLogs.log");
+        files = new File("./src/ServerLogs/Asia.log");
         if(!files.exists())
             files.createNewFile();
         loggerC.setup(files.getAbsolutePath());

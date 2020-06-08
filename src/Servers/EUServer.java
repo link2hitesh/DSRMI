@@ -1,7 +1,9 @@
 package Servers;
 
 import ServerImplementation.EUServerImpl;
+import SuppClasses.loggerC;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -9,8 +11,10 @@ import java.net.SocketException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Logger;
 
 public class EUServer {
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private EUServer(){};
 
@@ -19,7 +23,7 @@ public class EUServer {
         try {
             aSocket = new DatagramSocket(2345);
             byte[] buffer = new byte[1000];
-            System.out.println("Server EU Started............");
+
 
             while(true) {
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
@@ -53,9 +57,10 @@ public class EUServer {
     }
 
 
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args) throws Exception {
 
         String host = (args.length < 1) ? null : args[0];
+        setupLogging();
         try{
             EUServerImpl EUStub = new EUServerImpl();
             Runnable task = () -> {
@@ -66,11 +71,21 @@ public class EUServer {
             Registry registry= LocateRegistry.createRegistry(2345);
             registry.bind("EU",EUStub);
             System.out.println("Europe server started");
+            LOGGER.info( "Europe Server started");
         }
         catch(Exception e)
         {
             System.out.println("client exception: " + e.toString());
             e.printStackTrace();
         }
+    }
+    private static void setupLogging() throws IOException {
+        File files = new File("./src/Servers/");
+        if (!files.exists())
+            files.mkdirs();
+        files = new File("./src/ServerLogs/Europe.log");
+        if(!files.exists())
+            files.createNewFile();
+        loggerC.setup(files.getAbsolutePath());
     }
 }

@@ -2,19 +2,26 @@ package Clients;
 
 import Interface.PlayerInfo;
 import SuppClasses.Validations;
+import SuppClasses.loggerC;
 
+import java.io.File;
+import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import static SuppClasses.Validations.*;
 
 public class playerClient {
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
         String username, password, firstName, lastName, IPaddress;
         int age;
+        int playerCounter=0;
 
         System.out.println("***********Welcome***********");
 
@@ -31,6 +38,7 @@ public class playerClient {
             switch (choice) {
 
                 case 1:
+
                     System.out.print("Please enter the following information: \n" + "First Name: ");
                     firstName = sc.next();
                     System.out.print("Last Name: ");
@@ -48,16 +56,41 @@ public class playerClient {
                     if (server.equals("NA")) {
                         Registry registry = LocateRegistry.getRegistry(4999);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress)+"*******"+"\n");
+                        String output=obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+
+                        if(output.equals("New account created"))
+                        {
+                            playerCounter++;
+                            setupLogging(Integer.toString(playerCounter));
+                            LOGGER.info(username+"'s account created");
+                        }
                     } else if (server.equals("EU")) {
                         Registry registry = LocateRegistry.getRegistry(2345);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress)+"*******"+"\n");
+                        String output=obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+
+                        if(output.equals("New account created"))
+                        {
+                            playerCounter++;
+                            setupLogging(Integer.toString(playerCounter));
+                            LOGGER.info(username+"'s account created");
+                        }
 
                     } else if (server.equals("AS")) {
                         Registry registry = LocateRegistry.getRegistry(3999);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress)+"*******"+"\n");
+                        String output=obj.createPlayerAccount(firstName, lastName, age, username, password, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+
+                        if(output.equals("New account created"))
+                        {
+                            playerCounter++;
+                            setupLogging(Integer.toString(playerCounter));
+                            LOGGER.info(username+"'s account created");
+                        }
+
                     }
                     break;
 
@@ -72,16 +105,22 @@ public class playerClient {
                     if (server.equals("NA")) {
                         Registry registry = LocateRegistry.getRegistry(4999);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj.PlayerSignIn(username, password, IPaddress)+"*******"+"\n");
+                        String output=obj.PlayerSignIn(username, password, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+                        LOGGER.info(output);
                     } else if (server.equals("EU")) {
                         Registry registry = LocateRegistry.getRegistry(2345);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj.PlayerSignIn(username, password, IPaddress)+"*******"+"\n");
+                        String output=obj.PlayerSignIn(username, password, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+                        LOGGER.info(output);
 
                     } else if (server.equals("AS")) {
                         Registry registry = LocateRegistry.getRegistry(3999);
                         PlayerInfo obj = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj.PlayerSignIn(username, password, IPaddress)+"*******"+"\n");
+                        String output=obj.PlayerSignIn(username, password, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+                        LOGGER.info(output);
 
                     }
                     break;
@@ -95,16 +134,22 @@ public class playerClient {
                     if (server.equals("NA")) {
                         Registry registry = LocateRegistry.getRegistry(4999);
                         PlayerInfo obj1 = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj1.playerSignOut(username, IPaddress)+"*******"+"\n");
+                        String output=obj1.playerSignOut(username, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+                        LOGGER.info(output);
                     } else if (server.equals("EU")) {
                         Registry registry = LocateRegistry.getRegistry(2345);
                         PlayerInfo obj1 = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj1.playerSignOut(username, IPaddress)+"*******"+"\n");
+                        String output=obj1.playerSignOut(username, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+                        LOGGER.info(output);
 
                     } else if (server.equals("AS")) {
                         Registry registry = LocateRegistry.getRegistry(3999);
                         PlayerInfo obj1 = (PlayerInfo) registry.lookup(server);
-                        System.out.println("\n"+"*******"+obj1.playerSignOut(username, IPaddress)+"*******"+"\n");
+                        String output=obj1.playerSignOut(username, IPaddress);
+                        System.out.println("\n"+"*******"+output+"*******"+"\n");
+                        LOGGER.info(output);
 
                     }
                     break;
@@ -118,6 +163,16 @@ public class playerClient {
 
 
         }
+    }
+    private static void setupLogging(String filename) throws IOException {
+        File logFile = new File("./src/Servers/");
+        if (!logFile.exists())
+            logFile.mkdirs();
+        String path="./src/PlayerLogs/Player_"+filename+".log";
+        logFile = new File(path);
+        if(!logFile.exists())
+            logFile.createNewFile();
+        loggerC.setup(logFile.getAbsolutePath());
     }
 
 

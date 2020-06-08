@@ -11,21 +11,40 @@ import java.util.List;
 
 public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
 
-    Hashtable<Character, List<player>> playerDB = new Hashtable<Character, List<player>>();
-    List<String> uname = new ArrayList<String>();
+    Hashtable<Character, List<player>> playerDB = new Hashtable<Character, List<player>>();//the database for this server
+    List<String> uname = new ArrayList<String>();// a list of usernames
 
-    public NAServerImpl() throws Exception {
+    public NAServerImpl() throws Exception {    /*Comtructor to create default players*/
         super();
+
+        player newplayer = new player("abc", "cde", "player3", "password", 21, "132.122.132.23", "Offline");
+
+        uname.add(newplayer.userName.trim()); // to omit any extra spaces
+        uname.add("player1");
+        uname.add("player2");
+        char[] tempArray = newplayer.userName.toCharArray();
+        char firstLetter = Character.toUpperCase(tempArray[0]);
+
+        if (playerDB.containsKey(firstLetter)) {
+            playerDB.get(firstLetter).add(newplayer);
+        } else {
+            List<player> newList = new ArrayList<>();
+            newList.add(newplayer);
+            playerDB.put(firstLetter, newList);
+        }
+
     }
 
     @Override
-    public String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
+    public synchronized String createPlayerAccount(String FirstName, String LastName, int Age, String Username, String Password, String IPAdress) throws RemoteException {
 
         boolean userPresent = userPresent(Username);
-        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username).trim();
-        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username).trim();
+        uname.add(Username.trim());
+        String responseFromEU = SenderReceiver.sendMessage(2345,2,Username).trim();//udp connection to verify username
 
-        System.out.println(responseFromAS + " and " + responseFromEU);
+        String responseFromAS = SenderReceiver.sendMessage(3999,2,Username).trim();//udp connection to verify username
+
+       // System.out.println(responseFromAS + " and " + responseFromEU);
 
         if (!userPresent && responseFromAS.equalsIgnoreCase("f") && responseFromEU.equalsIgnoreCase("f")) {
             player newPlayer = new player(FirstName, LastName, Username, Password, Age, IPAdress, "Offline");
@@ -43,42 +62,42 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
             return("New account created");
 
         } else {
-            return("Username already exists. \nAccount not created");
+            return("Account not created(Username already exists)");
         }
     }
 
      @Override
-     public String PlayerSignIn(String Username, String Password, String IPAddress) throws RemoteException {
+     public synchronized String PlayerSignIn(String Username, String Password, String IPAddress) throws RemoteException {
+        char firstLetter = Username.toCharArray()[0];
+         firstLetter = Character.toUpperCase(firstLetter);//all lists are stored with Capital letter keys
+         if (playerDB.containsKey(firstLetter)) {
+             List<player> tempList = playerDB.get(firstLetter);
+             for (player currentPlayer : tempList) {
+                 if (currentPlayer.userName.equals(Username)) {
+                     if (currentPlayer.pwd.equals(Password)) {
+                         if (currentPlayer.status.equals("Online")) {
+                             return ("Player Already signed in");
+                         } else {
+                             currentPlayer.status = "Online";
+                             return ("'" + Username + "'" + " signed in");
+                         }
+                     } else
+                         return ("incorrect password");
 
-         char firstLetter= Username.toCharArray()[0];
-         firstLetter= Character.toUpperCase(firstLetter);
-         List<player> tempList= playerDB.get(firstLetter);
-         for(player currentPlayer : tempList)
-         {
-             if (currentPlayer.userName.equals(Username)) {
-                 if (currentPlayer.pwd.equals(Password)) {
-                     if (currentPlayer.status.equals("Online")) {
-                         return("Player Already signed in");
-                     } else {
-                         currentPlayer.status = "Online";
-                         return( Username+" -signed in");
-                     }
-                 } else
-                     return("incorrect password");
+                 } else {
+                     continue;
+                 }
 
              }
-             else{
-                 continue;
-             }
 
+             return ("User does not exist");//incorrect username
          }
-
-         return("User does not exist");
+         return ("User does not exist");//incorrect IP
      }
 
 
     @Override
-    public String playerSignOut(String Username, String IPAdress) throws RemoteException {
+    public synchronized String playerSignOut(String Username, String IPAdress) throws RemoteException {
         char firstLetter= Username.toCharArray()[0];
         firstLetter= Character.toUpperCase(firstLetter);
         if(playerDB.containsKey(firstLetter)){
@@ -88,9 +107,9 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
                 if (currentPlayer.userName.equals(Username)) {
                     if (currentPlayer.status.equals("Online")) {
                         currentPlayer.status = "Offline";
-                        return("Player " + Username + " signed out");
+                        return( "'"+Username+"'"+" signed out");
                     } else {
-                        return("Player " + Username + "not signed in");
+                        return( "'"+Username+"'"+" not signed in");
                     }
                 }
                 else {
@@ -106,23 +125,23 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
     }
 
     @Override
-    public String getPlayerStatus() throws RemoteException {
+    public synchronized String getPlayerStatus() throws RemoteException {
         String EU=SenderReceiver.sendMessage(2345,1,"invalid");
         String AS=SenderReceiver.sendMessage(3999,1,"invalid");
         String NA=getLocalPlayerStatus();
-        String reply= EU+"."+AS+"." + NA;
+        String reply= NA+EU+AS;
         return reply;
     }
 
-    public boolean userPresent(String userName) {
+    public synchronized boolean userPresent(String userName) {
         boolean flag = false;
         for(String name : uname) {
-            flag = name.equals(userName);
+            flag = name.equals(userName.trim());
         }
         return flag;
     }
 
-    public String getLocalPlayerStatus() throws RemoteException {
+    public synchronized String getLocalPlayerStatus() throws RemoteException {
 
         int onlineCount = 0;
         int offlineCount=0;
@@ -144,7 +163,7 @@ public class NAServerImpl extends UnicastRemoteObject implements PlayerInfo {
             }
 
         }
-        String message = "NA:" + Integer.toString(onlineCount)+"Online, "+Integer.toString(offlineCount)+"Offline";
+        String message = "NA: " + Integer.toString(onlineCount)+" Online, "+Integer.toString(offlineCount)+" Offline. ";
         return message;
     }
 }
